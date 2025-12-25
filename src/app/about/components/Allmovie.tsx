@@ -1,5 +1,13 @@
 import MovieCard from "./MovieCard";
 
+type Movie = {
+  id: number;
+  title: string;
+  poster_path: string;
+  release_date: string;
+  vote_average: number;
+};
+
 const fetchFromUpComingMovieDB = async () => {
   const response = await fetch(
     "https://api.themoviedb.org/3/movie/upcoming?language=en-US&page=1",
@@ -57,21 +65,21 @@ export default async function Allmovie() {
     <div>
       <div className="font-semibold leading-8">Upcomming</div>
       <div style={{ display: "flex", flexWrap: "wrap", gap: 16 }}>
-        {upcomingMovies.slice(0, 10).map((movie) => (
+        {upcomingMovies.map((movie) => (
           <MovieCard key={movie.id} movie={movie} />
         ))}
       </div>
 
       <div className="font-semibold leading-8">Popular</div>
       <div style={{ display: "flex", flexWrap: "wrap", gap: 16 }}>
-        {popularMovies.slice(0, 10).map((movie) => (
+        {popularMovies.map((movie) => (
           <MovieCard key={movie.id} movie={movie} />
         ))}
       </div>
 
       <div className="font-semibold leading-8">Top Rated</div>
       <div style={{ display: "flex", flexWrap: "wrap", gap: 16 }}>
-        {topRatedMovies.slice(0, 10).map((movie) => (
+        {topRatedMovies.map((movie) => (
           <MovieCard key={movie.id} movie={movie} />
         ))}
       </div>
