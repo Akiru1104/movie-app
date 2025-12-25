@@ -1,6 +1,6 @@
 "use client";
 
-import MovieCard from "./MovieCard";
+import CarouselMovieContent from "./Carousel";
 import {
   Carousel,
   CarouselContent,
@@ -9,26 +9,30 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 
-type Movie = {
-  id: number;
-  title: string;
-  poster_path: string;
-  release_date: string;
-  vote_average: number;
-};
+import Autoplay from "embla-carousel-autoplay";
+import { useRef } from "react";
 
 export default function NowPlayingCarousel({ movies }: { movies: Movie[] }) {
+  const autoplay = useRef(
+    Autoplay({
+      delay: 3000,
+      stopOnInteraction: false,
+      stopOnMouseEnter: true,
+    })
+  );
+
   return (
     <div className="relative">
-      <Carousel opts={{ align: "start", loop: true }} className="w-full">
+      <Carousel
+        opts={{ align: "start", loop: true }}
+        plugins={[autoplay.current]}
+        className="w-full"
+      >
         <CarouselContent className="-ml-3">
           {movies.map((movie) => (
-            <CarouselItem
-              key={movie.id}
-              className="pl-3 basis-1/2 sm:basis-1/3 md:basis-1/4 lg:basis-1/6"
-            >
+            <CarouselItem key={movie.id}>
               <div className="group relative transition-all duration-300 hover:z-20 hover:scale-[1.08]">
-                <MovieCard movie={movie} />
+                <CarouselMovieContent movie={movie} />
               </div>
             </CarouselItem>
           ))}

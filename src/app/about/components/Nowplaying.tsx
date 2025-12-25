@@ -1,13 +1,5 @@
 import NowPlayingCarousel from "./NowPlayingCarousel";
 
-type Movie = {
-  id: number;
-  title: string;
-  poster_path: string;
-  release_date: string;
-  vote_average: number;
-};
-
 const fetchFromNowPlaying = async (): Promise<Movie[]> => {
   const response = await fetch(
     "https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=1",
@@ -29,7 +21,7 @@ export default async function NowPlaying() {
 
   return (
     <div>
-      <div className="font-semibold leading-8">Upcoming</div>
+      <div className="font-semibold leading-8">Now Playing</div>
 
       <div className="mt-4">
         <NowPlayingCarousel movies={nowPlayingMovies} />

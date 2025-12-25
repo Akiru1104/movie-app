@@ -1,11 +1,3 @@
-type Movie = {
-  id: number;
-  title: string;
-  poster_path: string;
-  release_date: string;
-  vote_average: number;
-};
-
 type Props = { movie: Movie };
 
 export default function MovieCard({ movie }: Props) {
@@ -16,9 +8,8 @@ export default function MovieCard({ movie }: Props) {
         alt={movie.title}
         width={200}
       />
-      <h3>{movie.title}</h3>
-      <p>{movie.release_date}</p>
-      <p>⭐ {movie.vote_average}</p>
+      <div>{movie.title}</div>
+      <div>⭐ {movie.vote_average}</div>
     </div>
   );
 }
