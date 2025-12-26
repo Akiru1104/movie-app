@@ -9,7 +9,7 @@ export default function MovieCard({ movie }: Props) {
         width={200}
       />
       <div>{movie.title}</div>
-      <div>⭐ {movie.vote_average}</div>
+      <div>⭐ {movie.vote_average?.toFixed(1)}</div>
     </div>
   );
 }

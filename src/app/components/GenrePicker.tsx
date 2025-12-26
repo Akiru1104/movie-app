@@ -1,30 +1,46 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
+import * as React from "react";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover"
-import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
+} from "@/components/ui/popover";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 
 const GENRES = [
-  "Action","Adventure","Animation","Biography","Comedy","Crime",
-  "Drama","Documentary","Family","Fantasy","History","Horror",
-  "Music","Mystery","Romance","Sci-Fi","Sport","Thriller","War","Western",
-]
+  "Action",
+  "Adventure",
+  "Animation",
+  "Biography",
+  "Comedy",
+  "Crime",
+  "Drama",
+  "Documentary",
+  "Family",
+  "Fantasy",
+  "History",
+  "Horror",
+  "Music",
+  "Mystery",
+  "Romance",
+  "Sci-Fi",
+  "Sport",
+  "Thriller",
+  "War",
+  "Western",
+];
 
 export default function GenrePicker({
   value,
   onChange,
 }: {
-  value: string[]
-  onChange: (next: string[]) => void
+  value: string[];
+  onChange: (next: string[]) => void;
 }) {
-  const label =
-    value.length === 0 ? "Genres" : `Genres (${value.length})`
+  const label = value.length === 0 ? "Genres" : `Genres (${value.length})`;
 
   return (
     <Popover>
@@ -41,8 +57,8 @@ export default function GenrePicker({
 
       <PopoverContent className="w-[520] p-4" align="start">
         <div className="mb-2 text-sm font-semibold">Genres</div>
-        <div className="mb-3 text-xs text-muted-foreground">
-          Select 1+ genres (multi)
+        <div className="mb-2 text-sm text-muted-foreground">
+          See lists of movies by genre
         </div>
 
         <ToggleGroup
@@ -75,17 +91,12 @@ export default function GenrePicker({
               )}
             </div>
 
-            <Button
-              variant="ghost"
-              onClick={() => onChange([])}
-            >
+            <Button variant="ghost" onClick={() => onChange([])}>
               Clear
             </Button>
           </div>
         )}
       </PopoverContent>
     </Popover>
-  )
+  );
 }
-
-
