@@ -1,5 +1,4 @@
-import { use } from "react";
-import { MovieCard } from "@/app/about/components/MovieCard";
+import { fetchFromUpComingMovieDB } from "@/app/about/components/Allmovie";
 
 const MovieCategoryPage = async ({
   params,
@@ -10,9 +9,8 @@ const MovieCategoryPage = async ({
 
   const movies: Movie[] = await fetchFromUpComingMovieDB(movieCategory);
 
-  // const { movieCategory } = await fetchFromUpComingMovieDB(movieCategory);
-
-  return <div>{movieCategory}</div>;
+  console.log(movies);
+  return <div> Category Dynamic Routing Page {movieCategory}</div>;
 };
 
 export default MovieCategoryPage;
