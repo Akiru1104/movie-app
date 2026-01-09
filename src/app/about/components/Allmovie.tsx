@@ -16,35 +16,35 @@ export const fetchFromUpComingMovieDB = async (category: string) => {
   return data.results;
 };
 
-//  export const fetchFromPopularMovieDB = async () => {
-//   const response = await fetch(
-//     "https://api.themoviedb.org/3/movie/popular?language=en-US&page=1",
-//     {
-//       headers: {
-//         "Content-Type": "application/json",
-//         Authorization: `Bearer ${process.env.NEXT_PUBLIC_MOVIE_KEY}`,
-//       },
-//     }
-//   );
+export const fetchFromPopularMovieDB = async () => {
+  const response = await fetch(
+    "https://api.themoviedb.org/3/movie/popular?language=en-US&page=1",
+    {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${process.env.NEXT_PUBLIC_MOVIE_KEY}`,
+      },
+    }
+  );
 
-//   const data = await response.json();
-//   return data.results;
-// };
+  const data = await response.json();
+  return data.results;
+};
 
-//  export const fetchFromTopRatedMovieDB = async () => {
-//   const response = await fetch(
-//     "https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=1",
-//     {
-//       headers: {
-//         "Content-Type": "application/json",
-//         Authorization: `Bearer ${process.env.NEXT_PUBLIC_MOVIE_KEY}`,
-//       },
-//     }
-//   );
+export const fetchFromTopRatedMovieDB = async () => {
+  const response = await fetch(
+    "https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=1",
+    {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${process.env.NEXT_PUBLIC_MOVIE_KEY}`,
+      },
+    }
+  );
 
-//   const data = await response.json();
-//   return data.results;
-// };
+  const data = await response.json();
+  return data.results;
+};
 
 export default async function Allmovie() {
   const upcomingMovies: Movie[] = await fetchFromUpComingMovieDB("upcoming");
@@ -54,10 +54,12 @@ export default async function Allmovie() {
   return (
     <div>
       <div>
-        <div className="font-semibold leading-8">Upcoming</div>
-        <Link href="/category/upcoming">
-          <button>Upcoming</button>
-        </Link>
+        <div className="flex ">
+          <div className="font-semibold leading-8">Upcoming</div>
+          <Link href="/category/upcoming">
+            <button>See more</button>
+          </Link>
+        </div>
         <div style={{ display: "flex", flexWrap: "wrap", gap: 16 }}>
           {upcomingMovies.map((movie) => (
             <MovieCard key={movie.id} movie={movie} />
