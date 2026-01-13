@@ -66,7 +66,7 @@ export default async function Allmovie() {
           ))}
         </div>
       </div>
-      <div>
+      {/* <div>
         <div className="font-semibold leading-8">Popular</div>
         <Link href="/category/popular">
           <button>Popular</button>
@@ -87,7 +87,7 @@ export default async function Allmovie() {
             <MovieCard key={movie.id} movie={movie} />
           ))}
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }
