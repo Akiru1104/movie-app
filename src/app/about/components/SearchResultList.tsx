@@ -2,14 +2,15 @@
 
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import SearchInput from "@/app/components/SearchInput";
 
-type Movie = {
-  id: number;
-  title: string;
-  release_date?: string;
-  poster_path?: string | null;
-  vote_average?: number;
-};
+// type Movie = {
+//   id: number;
+//   title: string;
+//   release_date?: string;
+//   poster_path?: string | null;
+//   vote_average?: number;
+// };
 
 type Props = {
   word: string;
@@ -18,9 +19,8 @@ type Props = {
 };
 
 export default function SearchResultList({ word, results, onClose }: Props) {
-  const router = useRouter();
-
   if (!word) return null;
+  const router = useRouter();
 
   return (
     <div className="absolute left-0 top-full z-50 mt-2 w-[360] rounded-md border bg-white shadow-lg">
