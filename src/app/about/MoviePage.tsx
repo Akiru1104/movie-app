@@ -14,8 +14,8 @@ export default function MoviePage() {
 
   const url =
     text.trim().length > 0
-      ? `https://api.themoviedb.org/3/movie/${API_KEY}&query=${encodeURIComponent(
-          text
+      ? `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&query=${encodeURIComponent(
+          text,
         )}&language=en-US&page=1`
       : null;
 

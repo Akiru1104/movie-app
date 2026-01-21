@@ -3,31 +3,54 @@
 import { useState } from "react";
 import GenrePicker from "@/app/components/GenrePicker";
 import SearchInput from "@/app/components/SearchInput";
-import SearchResultList from "../about/components/SearchResultList";
+import SearchResultList from "@/app/about/components/SearchResultList";
+
+type Movie = {
+  id: number;
+  title: string;
+  release_date?: string;
+  poster_path?: string | null;
+  vote_average?: number;
+};
 
 export const Header = () => {
   const [genres, setGenres] = useState<string[]>([]);
   const [search, setSearch] = useState("");
-  const [results, setResults] = useState<string[]>([]);
+  const [results, setResults] = useState<Movie[]>([]);
   const [open, setOpen] = useState(false);
+
+  const TOKEN = process.env.NEXT_PUBLIC_MOVIE_KEY; // TMDB v4 Access Token (Bearer)
 
   const handleSearch = async () => {
     const q = search.trim();
     if (!q) return;
-    const res = await fetch(
-      `https://api.themoviedb.org/3/search/movie?query=${searchValue}&language=en-US&page=${page}`,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${process.env.NEXT_PUBLIC_MOVIE_KEY}`,
-        },
+
+    const url = `https://api.themoviedb.org/3/search/movie?query=${encodeURIComponent(
+      q,
+    )}&language=en-US&page=1`;
+
+    console.log("FETCH:", url);
+
+    const res = await fetch(url, {
+      headers: {
+        Authorization: `Bearer ${TOKEN}`,
+        accept: "application/json",
       },
-    );
+    });
+
+    console.log("STATUS:", res.status);
+
+    if (!res.ok) {
+      const errText = await res.text();
+      console.log("ERROR BODY:", errText);
+      setResults([]);
+      setOpen(false);
+      return;
+    }
 
     const data = await res.json();
-    setResults(data.results);
+    setResults(data?.results ?? []);
     setOpen(true);
-    console.log("Search for:", search);
   };
 
   return (
@@ -36,11 +59,25 @@ export const Header = () => {
 
       <div className="flex items-center gap-3">
         <GenrePicker value={genres} onChange={setGenres} />
-        <SearchInput
-          value={search}
-          onChange={setSearch}
-          onEnter={handleSearch}
-        />
+
+        <div className="relative">
+          <SearchInput
+            value={search}
+            onChange={(v) => {
+              setSearch(v);
+              setOpen(true);
+            }}
+            onEnter={handleSearch}
+          />
+
+          {open && (
+            <SearchResultList
+              word={search}
+              results={results}
+              onClose={() => setOpen(false)}
+            />
+          )}
+        </div>
       </div>
     </header>
   );
