@@ -52,7 +52,6 @@ export default async function MovieDetailPage({
 }: {
   params: Promise<{ id: string }>;
 }) {
-  // 🔥 Next.js 15/16 FIX
   const { id } = await params;
 
   const movieId = Number(id);
@@ -103,6 +102,11 @@ export default async function MovieDetailPage({
               <div className="h-40 bg-gray-200 rounded mb-1" />
               <p className="text-sm font-medium">{c.name}</p>
               <p className="text-xs text-gray-500">{c.character}</p>
+              <img
+                src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                alt={movie.title}
+                width={200}
+              />
             </div>
           ))}
         </div>
