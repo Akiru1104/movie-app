@@ -1,4 +1,5 @@
 import React from "react";
+import { TbMovie } from "react-icons/tb";
 
 export const Footer = () => {
   return (
@@ -6,8 +7,12 @@ export const Footer = () => {
       className="bg-[#4338CA] flex text-white h-[280] pt-[40] pb-[40
     ] gap-12"
     >
-      <div>
+      <div className="">
         <img src="Logo.png" alt="" />
+        <div className="flex align-center">
+          <TbMovie />
+          Movie Z
+        </div>
         <div>© 2024 Movie Z. All Rights Reserved.</div>
       </div>
       <div className="flex">
@@ -19,7 +24,7 @@ export const Footer = () => {
             <div>support@movieZ.com</div>
           </div>
         </div>
-        <div>
+        <div className="">
           <img src="phone.png" alt="" />
           <div>
             <div>Phone:</div>

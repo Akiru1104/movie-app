@@ -19,7 +19,7 @@ export const Header = () => {
   const [results, setResults] = useState<Movie[]>([]);
   const [open, setOpen] = useState(false);
 
-  const TOKEN = process.env.NEXT_PUBLIC_MOVIE_KEY; // TMDB v4 Access Token (Bearer)
+  const TOKEN = process.env.NEXT_PUBLIC_MOVIE_KEY;
 
   const handleSearch = async () => {
     const q = search.trim();
