@@ -79,6 +79,23 @@ export default async function MovieDetailPage({
         <span>{movie.runtime} min</span>
       </div>
 
+      {/* OVERVIEW */}
+
+      <div
+        className="flex gap-32"
+      >
+        <img
+          src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+          alt={movie.title}
+          width={290}
+        />
+        <img
+          src={`https://image.tmdb.org/t/p/w500${movie.backdrop_path}`}
+          alt={movie.title}
+          width={760}
+        />
+      </div>
+
       {/* GENRES */}
       {movie.genres?.length > 0 && (
         <div className="flex flex-wrap gap-2">
@@ -90,36 +107,57 @@ export default async function MovieDetailPage({
         </div>
       )}
 
-      {/* OVERVIEW */}
       <p className="max-w-3xl text-gray-800">{movie.overview}</p>
 
-      {/* CAST */}
-      <div>
+      CAST
+      <div className="mb-8">
         <h2 className="text-xl font-semibold mb-2">Cast</h2>
         <div className="flex gap-4 overflow-x-auto">
-          {credits.cast.slice(0, 10).map((c) => (
+          {credits.cast.slice(0, 5).map((c) => (
             <div key={c.id} className="w-28 flex-shrink-0">
-              <div className="h-40 bg-gray-200 rounded mb-1" />
+              <div className="h-40 bg-gray-200 rounded mb-1">
+                {/* {c.profile_path && (
+                  <img
+                    src={`https://image.tmdb.org/t/p/w300${c.profile_path}`}
+                    alt={c.name}
+                    className="h-full w-full object-cover rounded"
+                  />
+                )} */}
+              </div>
               <p className="text-sm font-medium">{c.name}</p>
               <p className="text-xs text-gray-500">{c.character}</p>
-              <img
-                src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-                alt={movie.title}
-                width={200}
-              />
             </div>
           ))}
         </div>
       </div>
 
-      {/* SIMILAR */}
+      {/* Director / Writers / Stars */}
+      <div className="space-y-3 border-t pt-4">
+        <div className="flex gap-4">
+          <p className="w-24 font-semibold">Director</p>
+          <p className="text-gray-700"></p>
+        </div>
+
+        <div className="flex gap-4">
+          <p className="w-24 font-semibold">Writers</p>
+          <p className="text-gray-700"></p>
+        </div>
+
+        <div className="flex gap-4">
+          <p className="w-24 font-semibold">Stars</p>
+          <p className="text-gray-700"></p>
+        </div>
+      </div>
+
+      {/* More like this */}
       <div>
-        <h2 className="text-xl font-semibold mb-2">Similar movies</h2>
+        <h2 className="text-xl font-semibold mb-2">More like this </h2>
         <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
           {similar.results.map((m) => (
             <div key={m.id}>
               <div className="h-48 bg-gray-200 rounded mb-1" />
               <p className="text-sm">{m.title}</p>
+            
             </div>
           ))}
         </div>

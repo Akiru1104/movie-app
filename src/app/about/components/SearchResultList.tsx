@@ -29,23 +29,23 @@ export default function SearchResultList({ word, results, onClose }: Props) {
           <li
             key={movie.id}
             onClick={() => {
-              router.push(`/movieDetail/${movie.id}`); 
+              router.push(`/movieDetail/${movie.id}`);
               onClose();
             }}
             className="flex cursor-pointer items-center gap-3 px-3 py-2 hover:bg-gray-100"
           >
             <div className="h-16 w-11 overflow-hidden rounded-md bg-gray-200">
-              <Image
-                src={
-                  movie.poster_path
-                    ? `https://image.tmdb.org/t/p/w200${movie.poster_path}`
-                    : "/placeholder.png"
-                }
-                alt={movie.title}
-                width={80}
-                height={120}
-                className="h-full w-full object-cover"
-              />
+              {/* <Image
+              // src={
+              //   movie.poster_path
+              //     ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
+              //     : "/placeholder.png"
+              // }
+              // alt={movie.title}
+              // width={80}
+              // height={120}
+              // className="h-full w-full object-cover"
+              /> */}
             </div>
 
             <div className="flex flex-col">
