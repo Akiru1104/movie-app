@@ -71,19 +71,14 @@ export default async function MovieDetailPage({
     <div className="p-6 space-y-6">
       {/* TITLE */}
       <h1 className="text-3xl font-bold">{movie.title}</h1>
-
       {/* META */}
       <div className="flex items-center gap-4 text-sm text-gray-600">
         <span>{movie.release_date}</span>
         <span>⭐ {movie.vote_average.toFixed(1)}</span>
         <span>{movie.runtime} min</span>
       </div>
-
       {/* OVERVIEW */}
-
-      <div
-        className="flex gap-32"
-      >
+      <div className="flex gap-32">
         <img
           src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
           alt={movie.title}
@@ -95,7 +90,6 @@ export default async function MovieDetailPage({
           width={760}
         />
       </div>
-
       {/* GENRES */}
       {movie.genres?.length > 0 && (
         <div className="flex flex-wrap gap-2">
@@ -106,23 +100,20 @@ export default async function MovieDetailPage({
           ))}
         </div>
       )}
-
       <p className="max-w-3xl text-gray-800">{movie.overview}</p>
-
-      CAST
       <div className="mb-8">
         <h2 className="text-xl font-semibold mb-2">Cast</h2>
         <div className="flex gap-4 overflow-x-auto">
           {credits.cast.slice(0, 5).map((c) => (
             <div key={c.id} className="w-28 flex-shrink-0">
               <div className="h-40 bg-gray-200 rounded mb-1">
-                {/* {c.profile_path && (
+                {c.profile_path && (
                   <img
                     src={`https://image.tmdb.org/t/p/w300${c.profile_path}`}
                     alt={c.name}
                     className="h-full w-full object-cover rounded"
                   />
-                )} */}
+                )}
               </div>
               <p className="text-sm font-medium">{c.name}</p>
               <p className="text-xs text-gray-500">{c.character}</p>
@@ -130,7 +121,6 @@ export default async function MovieDetailPage({
           ))}
         </div>
       </div>
-
       {/* Director / Writers / Stars */}
       <div className="space-y-3 border-t pt-4">
         <div className="flex gap-4">
@@ -148,7 +138,6 @@ export default async function MovieDetailPage({
           <p className="text-gray-700"></p>
         </div>
       </div>
-
       {/* More like this */}
       <div>
         <h2 className="text-xl font-semibold mb-2">More like this </h2>
@@ -157,7 +146,6 @@ export default async function MovieDetailPage({
             <div key={m.id}>
               <div className="h-48 bg-gray-200 rounded mb-1" />
               <p className="text-sm">{m.title}</p>
-            
             </div>
           ))}
         </div>
