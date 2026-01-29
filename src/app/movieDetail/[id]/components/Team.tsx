@@ -53,9 +53,12 @@ export const Team = async ({ movieId }: { movieId: string }) => {
           ))}
         </div>
       </div>
-      <div className="felx ">
-        <div>Stars</div>
-        <div>
+      <div
+        className="flex gap-25.5
+       border-b-2 pb-5 "
+      >
+        <div className="font-semibold">Stars</div>
+        <div className="flex gap-5">
           {stars.map((star, index) => (
             <span key={index}>
               {index == 0 ? "" : " · "}
