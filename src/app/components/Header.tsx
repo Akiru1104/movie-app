@@ -4,6 +4,7 @@ import { useState } from "react";
 import GenrePicker from "@/app/components/GenrePicker";
 import SearchInput from "@/app/components/SearchInput";
 import SearchResultList from "@/app/about/components/SearchResultList";
+import { TbMovie } from "react-icons/tb";
 
 type Movie = {
   id: number;
@@ -55,7 +56,10 @@ export const Header = () => {
 
   return (
     <header className="flex items-center justify-between px-6 py-4 border-b">
-      <img src="/HeaderLogo .png" alt="Logo" className="h-8 w-auto" />
+      <div className="flex items-center gap-2 italic text-indigo-700 font-semibold">
+        <TbMovie />
+        <p>Movie Z</p>
+      </div>
 
       <div className="flex items-center gap-3">
         <GenrePicker value={genres} onChange={setGenres} />

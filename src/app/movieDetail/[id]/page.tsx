@@ -1,3 +1,5 @@
+import { Team } from "./components/Team";
+
 type MovieDetail = {
   id: number;
   title: string;
@@ -122,21 +124,8 @@ export default async function MovieDetailPage({
         </div>
       </div>
       {/* Director / Writers / Stars */}
-      <div className="space-y-3 border-t pt-4">
-        <div className="flex gap-4">
-          <p className="w-24 font-semibold">Director</p>
-          <p className="text-gray-700"></p>
-        </div>
-
-        <div className="flex gap-4">
-          <p className="w-24 font-semibold">Writers</p>
-          <p className="text-gray-700"></p>
-        </div>
-
-        <div className="flex gap-4">
-          <p className="w-24 font-semibold">Stars</p>
-          <p className="text-gray-700"></p>
-        </div>
+      <div>
+        <Team movieId={id} />
       </div>
       {/* More like this */}
       <div>
