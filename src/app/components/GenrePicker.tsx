@@ -9,6 +9,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import { IoIosArrowDown } from "react-icons/io";
 
 const GENRES = [
   "Action",
@@ -46,6 +47,7 @@ export default function GenrePicker({
     <Popover>
       <PopoverTrigger asChild>
         <Button variant="outline" className="gap-2">
+          <IoIosArrowDown />
           {label}
           {value.length > 0 && (
             <Badge variant="secondary" className="ml-1">
@@ -56,7 +58,7 @@ export default function GenrePicker({
       </PopoverTrigger>
 
       <PopoverContent className="w-[520] p-4" align="start">
-        <div className="mb-2 text-sm font-semibold">Genres</div>
+        <div className="mb-2 text-sm font-semibold">Genre</div>
         <div className="mb-2 text-sm text-muted-foreground">
           See lists of movies by genre
         </div>

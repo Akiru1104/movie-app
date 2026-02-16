@@ -21,7 +21,7 @@ export default function NowPlayingCarousel({ movies }: { movies: Movie[] }) {
       delay: 3000,
       stopOnInteraction: false,
       stopOnMouseEnter: true,
-    })
+    }),
   );
 
   const [open, setOpen] = useState(false);
@@ -48,7 +48,7 @@ export default function NowPlayingCarousel({ movies }: { movies: Movie[] }) {
         plugins={[autoplay.current]}
         className="w-full"
       >
-        <CarouselContent className="-ml-3">
+        <CarouselContent>
           {movies.map((movie) => (
             <CarouselItem key={movie.id}>
               <div className="group relative transition-all duration-300 hover:shadow-lg">

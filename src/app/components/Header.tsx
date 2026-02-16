@@ -5,6 +5,8 @@ import GenrePicker from "@/app/components/GenrePicker";
 import SearchInput from "@/app/components/SearchInput";
 import SearchResultList from "@/app/about/components/SearchResultList";
 import { TbMovie } from "react-icons/tb";
+import { CiSearch } from "react-icons/ci";
+import { CiDark } from "react-icons/ci";
 
 type Movie = {
   id: number;
@@ -64,7 +66,7 @@ export const Header = () => {
       <div className="flex items-center gap-3">
         <GenrePicker value={genres} onChange={setGenres} />
 
-        <div className="relative">
+        <div className="relative flex items-center gap-1">
           <SearchInput
             value={search}
             onChange={(v) => {
@@ -83,6 +85,7 @@ export const Header = () => {
           )}
         </div>
       </div>
+      <div>Icon</div>
     </header>
   );
 };

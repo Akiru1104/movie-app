@@ -9,7 +9,7 @@ const fetchFromNowPlaying = async (): Promise<Movie[]> => {
         "Content-Type": "application/json",
         Authorization: `Bearer ${process.env.NEXT_PUBLIC_MOVIE_KEY}`,
       },
-    }
+    },
   );
 
   const data = await response.json();
@@ -21,9 +21,7 @@ export default async function NowPlaying() {
 
   return (
     <div>
-      <div className="font-semibold leading-8">Now Playing</div>
-
-      <div className="mt-4">
+      <div>
         <NowPlayingCarousel movies={nowPlayingMovies} />
       </div>
     </div>

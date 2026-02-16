@@ -46,7 +46,7 @@ export const Team = async ({ movieId }: { movieId: string }) => {
         <span className="font-semibold">Writers</span>
         <div className="flex gap-5">
           {Array.from(writers).map((writer, index) => (
-            <span>
+            <span key={index}>
               {index == 0 ? "" : " · "}
               {writer}
             </span>
