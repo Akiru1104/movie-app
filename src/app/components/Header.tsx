@@ -7,6 +7,7 @@ import SearchResultList from "@/app/about/components/SearchResultList";
 import { TbMovie } from "react-icons/tb";
 import { CiSearch } from "react-icons/ci";
 import { CiDark } from "react-icons/ci";
+import { MdOutlineLightMode } from "react-icons/md";
 
 type Movie = {
   id: number;
@@ -58,7 +59,10 @@ export const Header = () => {
 
   return (
     <header className="flex items-center justify-between px-6 py-4 border-b">
-      <div className="flex items-center gap-2 italic text-indigo-700 font-semibold">
+      <div
+        className="flex items-center gap-2 italic text-indigo-700 font-bold
+      "
+      >
         <TbMovie />
         <p>Movie Z</p>
       </div>
@@ -66,7 +70,7 @@ export const Header = () => {
       <div className="flex items-center gap-3">
         <GenrePicker value={genres} onChange={setGenres} />
 
-        <div className="relative flex items-center gap-1">
+        <div className="relative flex items-center gap-2">
           <SearchInput
             value={search}
             onChange={(v) => {
@@ -85,7 +89,11 @@ export const Header = () => {
           )}
         </div>
       </div>
-      <div>Icon</div>
+      <div className="flex items-center justify-center  ">
+        <div className="h-9 w-9 border-2 gap-2 flex items-center justify-center rounded-md">
+          <MdOutlineLightMode className="text-xl " />
+        </div>
+      </div>
     </header>
   );
 };
