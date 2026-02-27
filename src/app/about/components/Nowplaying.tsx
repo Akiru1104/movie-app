@@ -1,4 +1,5 @@
 import NowPlayingCarousel from "./NowPlayingCarousel";
+import { Movie } from "../../../../index";
 
 const fetchFromNowPlaying = async (): Promise<Movie[]> => {
   const response = await fetch(
@@ -21,7 +22,7 @@ export default async function NowPlaying() {
 
   return (
     <div>
-      <div>
+      <div className="pb-4">
         <NowPlayingCarousel movies={nowPlayingMovies} />
       </div>
     </div>

@@ -1,15 +1,25 @@
+import Link from "next/link";
+import { Movie } from "../../../../index";
+
 type Props = { movie: Movie };
 
 export default function MovieCard({ movie }: Props) {
   return (
-    <div style={{ width: 200 }}>
+    <Link
+      href={`/movieDetail/${movie.id}`}
+      className="bg-gray-50 w-full overflow-hidden rounded-lg block hover:opacity-80 transition"
+      style={{ width: 229 }}
+    >
       <img
+        className="w-full aspect-[2/3] object-cover"
         src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
         alt={movie.title}
         width={200}
       />
-      <div>{movie.title}</div>
-      <div>⭐ {movie.vote_average?.toFixed(1)}</div>
-    </div>
+      <div className="p-3">
+        <div>{movie.title}</div>
+        <div>⭐ {movie.vote_average?.toFixed(1)}</div>
+      </div>
+    </Link>
   );
 }

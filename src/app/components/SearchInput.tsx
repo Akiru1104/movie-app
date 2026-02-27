@@ -12,10 +12,10 @@ type Props = {
 
 export default function SearchInput({ value, onChange, onEnter }: Props) {
   return (
-    <div className="flex  gap-2 items-center relative">
-      <CiSearch className=" flex gap-1.5 absolute top-1/2 transform -translate-y-1/2 text-gray-400" />
+    <div className="flex  items-center relative">
+      <CiSearch className=" flex gap-1.5 absolute  left-2 top-1/2 transform -translate-y-1/2 text-gray-400" />
       <Input
-        className="flex gap-2 "
+        className="flex gap-2 pl-8"
         placeholder="Search..."
         value={value}
         onChange={(e) => onChange(e.target.value)}

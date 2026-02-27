@@ -1,13 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import GenrePicker from "@/app/components/GenrePicker";
 import SearchInput from "@/app/components/SearchInput";
 import SearchResultList from "@/app/about/components/SearchResultList";
 import { TbMovie } from "react-icons/tb";
-import { CiSearch } from "react-icons/ci";
-import { CiDark } from "react-icons/ci";
-import { MdOutlineLightMode } from "react-icons/md";
+import { MdOutlineDarkMode } from "react-icons/md";
+import { useRouter } from "next/navigation";
 
 type Movie = {
   id: number;
@@ -22,47 +21,56 @@ export const Header = () => {
   const [search, setSearch] = useState("");
   const [results, setResults] = useState<Movie[]>([]);
   const [open, setOpen] = useState(false);
+  const router = useRouter();
 
   const TOKEN = process.env.NEXT_PUBLIC_MOVIE_KEY;
 
-  const handleSearch = async () => {
+  // Бичих бүрт 400ms хүлээгээд API дуудна
+  useEffect(() => {
     const q = search.trim();
-    if (!q) return;
 
-    const url = `https://api.themoviedb.org/3/search/movie?query=${encodeURIComponent(
-      q,
-    )}&language=en-US&page=1`;
-
-    console.log("FETCH:", url);
-
-    const res = await fetch(url, {
-      headers: {
-        Authorization: `Bearer ${TOKEN}`,
-        accept: "application/json",
-      },
-    });
-
-    console.log("STATUS:", res.status);
-
-    if (!res.ok) {
-      const errText = await res.text();
-      console.log("ERROR BODY:", errText);
+    if (!q) {
       setResults([]);
       setOpen(false);
       return;
     }
 
-    const data = await res.json();
-    setResults(data?.results ?? []);
-    setOpen(true);
+    const timeout = setTimeout(async () => {
+      const res = await fetch(
+        `https://api.themoviedb.org/3/search/movie?query=${encodeURIComponent(q)}&language=en-US&page=1`,
+        {
+          headers: {
+            Authorization: `Bearer ${TOKEN}`,
+            accept: "application/json",
+          },
+        },
+      );
+
+      if (!res.ok) {
+        setResults([]);
+        setOpen(false);
+        return;
+      }
+
+      const data = await res.json();
+      setResults(data?.results ?? []);
+      setOpen(true);
+    }, 400);
+
+    return () => clearTimeout(timeout);
+  }, [search]);
+
+  // Enter дарахад /search page руу шилжих
+  const handleEnter = () => {
+    const q = search.trim();
+    if (!q) return;
+    setOpen(false);
+    router.push(`/search?query=${encodeURIComponent(q)}`);
   };
 
   return (
-    <header className="flex items-center justify-between px-6 py-4 border-b">
-      <div
-        className="flex items-center gap-2 italic text-indigo-700 font-bold
-      "
-      >
+    <header className="flex items-center justify-between px-20 py-4 border-b">
+      <div className="flex items-center gap-2 italic text-indigo-700 font-bold">
         <TbMovie />
         <p>Movie Z</p>
       </div>
@@ -70,14 +78,11 @@ export const Header = () => {
       <div className="flex items-center gap-3">
         <GenrePicker value={genres} onChange={setGenres} />
 
-        <div className="relative flex items-center gap-2">
+        <div className="relative flex items-center">
           <SearchInput
             value={search}
-            onChange={(v) => {
-              setSearch(v);
-              setOpen(true);
-            }}
-            onEnter={handleSearch}
+            onChange={(v) => setSearch(v)}
+            onEnter={handleEnter}
           />
 
           {open && (
@@ -85,13 +90,18 @@ export const Header = () => {
               word={search}
               results={results}
               onClose={() => setOpen(false)}
+              onNavigate={() => {
+                setOpen(false);
+                setSearch("");
+              }}
             />
           )}
         </div>
       </div>
-      <div className="flex items-center justify-center  ">
+
+      <div className="flex items-center justify-center">
         <div className="h-9 w-9 border-2 gap-2 flex items-center justify-center rounded-md">
-          <MdOutlineLightMode className="text-xl " />
+          <MdOutlineDarkMode className="text-xl" />
         </div>
       </div>
     </header>

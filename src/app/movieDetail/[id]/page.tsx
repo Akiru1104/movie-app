@@ -1,4 +1,9 @@
 import { Team } from "./components/Team";
+import MovieMeta from "./components/MovieMeta";
+import MovieHero from "./components/MovieHero";
+import MovieGenres from "./components/MovieGenres";
+import MovieCredits from "./components/MovieCredits";
+import SimilarMovies from "./components/SimilarMovies";
 
 type MovieDetail = {
   id: number;
@@ -9,6 +14,7 @@ type MovieDetail = {
   release_date: string;
   runtime: number;
   vote_average: number;
+  vote_count: number;
   genres: { id: number; name: string }[];
 };
 
@@ -19,6 +25,7 @@ type CreditsResponse = {
     character: string;
     profile_path: string | null;
   }[];
+  crew: { id: number; name: string; job: string; department: string }[];
 };
 
 type SimilarResponse = {
@@ -29,6 +36,17 @@ type SimilarResponse = {
     vote_average: number;
   }[];
 };
+
+type VideoResponse = {
+  results: {
+    id: string;
+    key: string;
+    name: string;
+    type: string;
+    site: string;
+  }[];
+};
+
 const TMDB_BASE_URL = "https://api.themoviedb.org/3";
 const TMDB_TOKEN = process.env.NEXT_PUBLIC_MOVIE_KEY!;
 
@@ -40,12 +58,10 @@ async function tmdbFetch<T>(path: string): Promise<T> {
     },
     cache: "no-store",
   });
-
   if (!res.ok) {
     const text = await res.text();
     throw new Error(`TMDB ${res.status}: ${text}`);
   }
-
   return res.json();
 }
 
@@ -55,75 +71,53 @@ export default async function MovieDetailPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-
   const movieId = Number(id);
-  if (!Number.isFinite(movieId)) {
-    throw new Error(`Invalid movie id: ${id}`);
-  }
 
-  const [movie, credits, similar] = await Promise.all([
+  if (!Number.isFinite(movieId)) throw new Error(`Invalid movie id: ${id}`);
+
+  const [movie, credits, similar, videos] = await Promise.all([
     tmdbFetch<MovieDetail>(`/movie/${movieId}?language=en-US`),
     tmdbFetch<CreditsResponse>(`/movie/${movieId}/credits?language=en-US`),
     tmdbFetch<SimilarResponse>(
       `/movie/${movieId}/similar?language=en-US&page=1`,
     ),
+    tmdbFetch<VideoResponse>(`/movie/${movieId}/videos?language=en-US`),
   ]);
 
-  return (
-    <div className="p-6 space-y-6">
-      {/* TITLE */}
-      <h1 className="text-3xl font-bold">{movie.title}</h1>
-      {/* META */}
-      <div className="flex justify-between items-center">
-        <div className="flex items-center gap-4 text-sm text-gray-600">
-          <span>{movie.release_date}</span>
-          <span>⭐ {movie.vote_average.toFixed(1)}</span>
-          <span>{movie.runtime} min</span>
-        </div>
-        <div className="flex items-center gap-4 text-sm text-gray-600">
-          <span>⭐ {movie.vote_average.toFixed(1)}</span>
-        </div>
-      </div>
+  const trailer = videos.results.find(
+    (v) => v.type === "Trailer" && v.site === "YouTube",
+  );
+  const director = credits.crew.find((c) => c.job === "Director");
+  const writers = credits.crew
+    .filter((c) => c.department === "Writing")
+    .slice(0, 3);
+  const stars = credits.cast.slice(0, 3);
 
-      {/* OVERVIEW */}
-      <div className="flex gap-8">
-        <img
-          src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-          alt={movie.title}
-          width={290}
-        />
-        <img
-          src={`https://image.tmdb.org/t/p/w500${movie.backdrop_path}`}
-          alt={movie.title}
-          width={760}
-        />
-      </div>
-      {/* GENRES */}
-      {movie.genres?.length > 0 && (
-        <div className="flex flex-wrap gap-2">
-          {movie.genres.map((g) => (
-            <span key={g.id} className="rounded-full border px-3 py-1 text-xs">
-              {g.name}
-            </span>
-          ))}
-        </div>
-      )}
-      <p className="max-w-3xl text-gray-800">{movie.overview}</p>
-      <div>
-        <Team movieId={id} />
-      </div>
-      {/* More like this */}
-      <div>
-        <h2 className="text-xl font-semibold mb-2">More like this </h2>
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-          {similar.results.map((m) => (
-            <div key={m.id}>
-              <div className="h-48 bg-gray-200 rounded mb-1" />
-              <p className="text-sm">{m.title}</p>
-            </div>
-          ))}
-        </div>
-      </div>
+  return (
+    <div className="max-w-5xl mx-auto px-6 py-8 space-y-6">
+      <MovieMeta
+        title={movie.title}
+        releaseDate={movie.release_date}
+        runtime={movie.runtime}
+      />
+      <MovieHero
+        posterPath={movie.poster_path}
+        backdropPath={movie.backdrop_path}
+        trailer={trailer}
+        voteAverage={movie.vote_average}
+        voteCount={movie.vote_count}
+      />
+      <MovieGenres genres={movie.genres} />
+      <p className="text-gray-700 leading-relaxed max-w-3xl">
+        {movie.overview}
+      </p>
+      <hr className="border-gray-200" />
+      <MovieCredits director={director} writers={writers} stars={stars} />
+      <Team movieId={id} />
+      <SimilarMovies
+        movies={similar.results}
+        genreIds={movie.genres.map((g) => g.id)}
+      />
     </div>
   );
 }

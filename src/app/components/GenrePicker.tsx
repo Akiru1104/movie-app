@@ -8,30 +8,28 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { IoIosArrowDown } from "react-icons/io";
+import { useRouter } from "next/navigation";
 
 const GENRES = [
-  "Action",
-  "Adventure",
-  "Animation",
-  "Biography",
-  "Comedy",
-  "Crime",
-  "Drama",
-  "Documentary",
-  "Family",
-  "Fantasy",
-  "History",
-  "Horror",
-  "Music",
-  "Mystery",
-  "Romance",
-  "Sci-Fi",
-  "Sport",
-  "Thriller",
-  "War",
-  "Western",
+  { id: 28, name: "Action" },
+  { id: 12, name: "Adventure" },
+  { id: 16, name: "Animation" },
+  { id: 35, name: "Comedy" },
+  { id: 80, name: "Crime" },
+  { id: 99, name: "Documentary" },
+  { id: 18, name: "Drama" },
+  { id: 10751, name: "Family" },
+  { id: 14, name: "Fantasy" },
+  { id: 36, name: "History" },
+  { id: 27, name: "Horror" },
+  { id: 10402, name: "Music" },
+  { id: 9648, name: "Mystery" },
+  { id: 10749, name: "Romance" },
+  { id: 878, name: "Sci-Fi" },
+  { id: 53, name: "Thriller" },
+  { id: 10752, name: "War" },
+  { id: 37, name: "Western" },
 ];
 
 export default function GenrePicker({
@@ -41,63 +39,86 @@ export default function GenrePicker({
   value: string[];
   onChange: (next: string[]) => void;
 }) {
-  const label = value.length === 0 ? "Genres" : `Genres (${value.length})`;
+  const router = useRouter();
+  const [open, setOpen] = React.useState(false);
+  const [selected, setSelected] = React.useState<number[]>([]);
+
+  const toggleGenre = (id: number) => {
+    setSelected((prev) =>
+      prev.includes(id) ? prev.filter((g) => g !== id) : [...prev, id],
+    );
+  };
+
+  const handleApply = () => {
+    if (selected.length === 0) return;
+    setOpen(false);
+    router.push(`/genre?ids=${selected.join(",")}`);
+  };
+
+  const handleClear = () => {
+    setSelected([]);
+  };
 
   return (
-    <Popover>
+    <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <Button variant="outline" className="gap-2">
           <IoIosArrowDown />
-          {label}
-          {value.length > 0 && (
+          Genres
+          {selected.length > 0 && (
             <Badge variant="secondary" className="ml-1">
-              {value.length}
+              {selected.length}
             </Badge>
           )}
         </Button>
       </PopoverTrigger>
 
-      <PopoverContent className="w-[520] p-4" align="start">
-        <div className="mb-2 text-sm font-semibold">Genre</div>
-        <div className="mb-2 text-sm text-muted-foreground">
+      <PopoverContent className="w-[360px] p-4" align="start">
+        <div className="mb-1 text-sm font-semibold">Genre</div>
+        <div className="mb-3 text-sm text-muted-foreground">
           See lists of movies by genre
         </div>
 
-        <ToggleGroup
-          type="multiple"
-          value={value}
-          onValueChange={(v) => onChange(v)}
-          className="flex flex-wrap justify-start gap-2"
-        >
-          {GENRES.map((g) => (
-            <ToggleGroupItem
-              key={g}
-              value={g}
-              className="h-8 px-3 rounded-full"
-            >
-              {g}
-            </ToggleGroupItem>
-          ))}
-        </ToggleGroup>
+        <div className="flex flex-wrap gap-2 mb-4">
+          {GENRES.map((g) => {
+            const isSelected = selected.includes(g.id);
+            return (
+              <button
+                key={g.id}
+                onClick={() => toggleGenre(g.id)}
+                className={`flex items-center gap-1 rounded-full border px-3 py-1 text-sm transition ${
+                  isSelected
+                    ? "bg-gray-900 text-white border-gray-900"
+                    : "border-gray-300 hover:bg-gray-100"
+                }`}
+              >
+                {g.name}
+                {isSelected ? (
+                  <span className="text-xs">✕</span>
+                ) : (
+                  <span className="text-gray-400 text-xs">{">"}</span>
+                )}
+              </button>
+            );
+          })}
+        </div>
 
-        {value.length > 0 && (
-          <div className="mt-4 flex items-center justify-between">
-            <div className="flex flex-wrap gap-2">
-              {value.slice(0, 6).map((g) => (
-                <Badge key={g} variant="secondary">
-                  {g}
-                </Badge>
-              ))}
-              {value.length > 6 && (
-                <Badge variant="secondary">+{value.length - 6}</Badge>
-              )}
-            </div>
-
-            <Button variant="ghost" onClick={() => onChange([])}>
-              Clear
-            </Button>
-          </div>
-        )}
+        {/* Apply / Clear */}
+        <div className="flex justify-between items-center border-t pt-3">
+          <button
+            onClick={handleClear}
+            className="text-sm text-gray-500 hover:text-gray-800"
+          >
+            Clear
+          </button>
+          <button
+            onClick={handleApply}
+            disabled={selected.length === 0}
+            className="px-4 py-1.5 bg-gray-900 text-white text-sm rounded-full disabled:opacity-40 hover:bg-gray-700 transition"
+          >
+            See movies →
+          </button>
+        </div>
       </PopoverContent>
     </Popover>
   );
