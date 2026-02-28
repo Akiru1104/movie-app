@@ -1,4 +1,5 @@
 "use client";
+import { Movie } from "../../../..";
 
 type Props = {
   movie: Movie;

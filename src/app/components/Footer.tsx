@@ -6,8 +6,7 @@ import { PiPhoneThin } from "react-icons/pi";
 export const Footer = () => {
   return (
     <div
-      className="bg-[#4338CA] flex text-white h-[280] pt-[40] pb-[40
-    ] gap-29 pt-10 pb-10  justify-between px-10"
+      className="bg-[#4338CA] dark:bg-gray-900 flex flex-col md:flex-row text-white py-10 gap-8 md:gap-24 justify-between px-6 md:px-10"
     >
       <div className=" flex flex-col gap-3">
         <div className="flex align-center gap-2 italic font-bold items-center">
@@ -16,7 +15,7 @@ export const Footer = () => {
         </div>
         <div>© 2026 Movie Z. All Rights Reserved.</div>
       </div>
-      <div className="flex gap-24">
+      <div className="flex flex-col sm:flex-row gap-8 sm:gap-24">
         <div className="flex flex-col gap-4">
           <div className="pb-0.5">Contact Information</div>
           <div className="flex gap-5 items-center">

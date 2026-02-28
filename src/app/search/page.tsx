@@ -53,7 +53,7 @@ const getPaginationNumbers = (
   current: number,
   total: number,
 ): (number | "...")[] => {
-  const max = Math.min(total, 500);
+  const max = Math.min(total, 10);
   if (max <= 5) return Array.from({ length: max }, (_, i) => i + 1);
   if (current <= 3) return [1, 2, 3, "...", max];
   if (current >= max - 2) return [1, "...", max - 2, max - 1, max];
@@ -78,11 +78,11 @@ export default async function SearchPage({
     <div className="px-6 md:px-16 py-8">
       <h1 className="text-2xl font-bold mb-2">Search results</h1>
 
-      <div className="flex gap-10">
+      <div className="flex flex-col-reverse md:flex-row gap-6 md:gap-10">
         {/* LEFT: Results */}
         <div className="flex-1">
           {query && (
-            <p className="text-sm text-gray-500 mb-4">
+            <p className="text-sm font-bold mb-4">
               {totalResults} results for &quot;{query}&quot;
             </p>
           )}
@@ -157,9 +157,9 @@ export default async function SearchPage({
         </div>
 
         {/* RIGHT: Genre filter */}
-        <div className="w-64 flex-shrink-0">
+        <div className="w-full md:w-64 md:shrink-0">
           <h2 className="text-lg font-semibold mb-1">Search by genre</h2>
-          <p className="text-sm text-gray-500 mb-4">
+          <p className="text-sm text-gray-800 mb-4">
             See lists of movies by genre
           </p>
           <div className="flex flex-wrap gap-2">
@@ -167,10 +167,10 @@ export default async function SearchPage({
               <Link
                 key={genre.id + genre.name}
                 href={`/genre/${genre.id}`}
-                className="flex items-center gap-1 rounded-full border border-gray-300 px-3 py-1 text-sm hover:bg-gray-50 transition"
+                className="flex items-center gap-2 rounded-full  border border-gray-300 px-3 py-1 text-sm hover:bg-gray-50 transition"
               >
                 {genre.name}
-                <span className="text-gray-400 text-xs">{">"}</span>
+                <span className="text-gray-400 text-xs ">{" >"}</span>
               </Link>
             ))}
           </div>

@@ -43,10 +43,8 @@ export default async function MovieCategoryPage({
     currentPage,
   );
   const title = getCategoryTitle(movieCategory);
-  const paginationNumbers = getPaginationNumbers(
-    currentPage,
-    Math.min(totalPages, 100),
-  );
+  const maxPages = Math.min(totalPages, 10);
+  const paginationNumbers = getPaginationNumbers(currentPage, maxPages);
 
   return (
     <div className="px-4 md:px-10 lg:px-20 py-6">
@@ -101,7 +99,7 @@ export default async function MovieCategoryPage({
         )}
 
         {/* Next */}
-        {currentPage < totalPages ? (
+        {currentPage < maxPages ? (
           <Link
             href={`/category/${movieCategory}?page=${currentPage + 1}`}
             className="px-3 py-2 rounded text-sm hover:bg-gray-100 dark:hover:bg-gray-800 flex items-center gap-1"

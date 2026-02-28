@@ -1,3 +1,7 @@
+"use client";
+
+import { useState } from "react";
+
 const IMG_BASE = "https://image.tmdb.org/t/p";
 
 type Trailer = {
@@ -9,69 +13,67 @@ type Props = {
   posterPath: string | null;
   backdropPath: string | null;
   trailer: Trailer | undefined;
-  voteAverage: number;
-  voteCount: number;
 };
 
-export default function MovieHero({
-  posterPath,
-  backdropPath,
-  trailer,
-  voteAverage,
-  voteCount,
-}: Props) {
+export default function MovieHero({ posterPath, backdropPath, trailer }: Props) {
+  const [playing, setPlaying] = useState(false);
+
   return (
-    <div className="flex gap-4 items-start">
+    <div className="flex flex-col md:flex-row gap-4 items-start">
       {/* Poster */}
-      <div className="flex-shrink-0 w-[180px] rounded-lg overflow-hidden">
+      <div className="flex-shrink-0 w-full md:w-72.5 rounded-lg overflow-hidden">
         {posterPath ? (
           <img
             src={`${IMG_BASE}/w500${posterPath}`}
             alt="poster"
-            className="w-full h-auto object-cover"
+            className="w-full h-72 md:h-107 object-cover"
           />
         ) : (
-          <div className="w-full h-[260px] bg-gray-200 flex items-center justify-center text-xs text-gray-400">
+          <div className="w-full h-72 md:h-107 bg-gray-200 flex items-center justify-center text-xs text-gray-400">
             No Image
           </div>
         )}
       </div>
 
       {/* Trailer */}
-      <div className="relative flex-1 rounded-lg overflow-hidden bg-black">
-        {backdropPath && (
-          <img
-            src={`${IMG_BASE}/w1280${backdropPath}`}
-            alt="backdrop"
-            className="w-full h-[260px] object-cover opacity-80"
-          />
+      <div className="relative w-full md:w-190 rounded-lg overflow-hidden bg-black">
+        {playing && trailer ? (
+          <>
+            <iframe
+              src={`https://www.youtube.com/embed/${trailer.key}?autoplay=1`}
+              className="w-full h-56 md:h-107"
+              allow="autoplay; encrypted-media"
+              allowFullScreen
+            />
+            <button
+              onClick={() => setPlaying(false)}
+              className="absolute top-2 right-2 bg-black/60 hover:bg-black/80 text-white rounded-full w-8 h-8 flex items-center justify-center text-sm"
+            >
+              ✕
+            </button>
+          </>
+        ) : (
+          <>
+            {backdropPath && (
+              <img
+                src={`${IMG_BASE}/w1280${backdropPath}`}
+                alt="backdrop"
+                className="w-full h-56 md:h-107 object-cover opacity-80"
+              />
+            )}
+            {trailer && (
+              <button
+                onClick={() => setPlaying(true)}
+                className="absolute bottom-4 left-4"
+              >
+                <div className="flex items-center gap-2 bg-black/60 hover:bg-black/80 transition text-white px-5 py-3 rounded-full text-sm font-medium">
+                  <span className="text-lg">▶</span>
+                  Play trailer
+                </div>
+              </button>
+            )}
+          </>
         )}
-        {trailer && (
-          <a
-            href={`https://www.youtube.com/watch?v=${trailer.key}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="absolute inset-0 flex items-center justify-center"
-          >
-            <div className="flex items-center gap-2 bg-black/60 hover:bg-black/80 transition text-white px-5 py-3 rounded-full text-sm font-medium">
-              <span className="text-lg">▶</span>
-              Play trailer
-            </div>
-          </a>
-        )}
-      </div>
-
-      {/* Rating */}
-      <div className="flex-shrink-0 w-[90px] text-center space-y-1">
-        <p className="text-xs text-gray-400 uppercase tracking-wide">Rating</p>
-        <div className="flex items-center justify-center gap-1">
-          <span className="text-yellow-400 text-lg">★</span>
-          <span className="font-bold text-lg">{voteAverage.toFixed(1)}</span>
-          <span className="text-gray-400 text-xs">/10</span>
-        </div>
-        <p className="text-xs text-gray-400">
-          {(voteCount / 1000).toFixed(0)}k
-        </p>
       </div>
     </div>
   );

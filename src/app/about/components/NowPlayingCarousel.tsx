@@ -3,6 +3,7 @@
 import CarouselMovieContent from "./Carousel";
 import TrailerModal from "@/app/about/components/TrailerModal.tsx";
 import { getMovieTrailer } from "@/lib/getMovieTrailer";
+import { Movie } from "../../../index";
 
 import {
   Carousel,

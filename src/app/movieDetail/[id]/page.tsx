@@ -1,4 +1,3 @@
-import { Team } from "./components/Team";
 import MovieMeta from "./components/MovieMeta";
 import MovieHero from "./components/MovieHero";
 import MovieGenres from "./components/MovieGenres";
@@ -47,6 +46,13 @@ type VideoResponse = {
   }[];
 };
 
+type ReleaseDatesResponse = {
+  results: {
+    iso_3166_1: string;
+    release_dates: { certification: string; type: number }[];
+  }[];
+};
+
 const TMDB_BASE_URL = "https://api.themoviedb.org/3";
 const TMDB_TOKEN = process.env.NEXT_PUBLIC_MOVIE_KEY!;
 
@@ -75,18 +81,23 @@ export default async function MovieDetailPage({
 
   if (!Number.isFinite(movieId)) throw new Error(`Invalid movie id: ${id}`);
 
-  const [movie, credits, similar, videos] = await Promise.all([
+  const [movie, credits, similar, videos, releaseDates] = await Promise.all([
     tmdbFetch<MovieDetail>(`/movie/${movieId}?language=en-US`),
     tmdbFetch<CreditsResponse>(`/movie/${movieId}/credits?language=en-US`),
     tmdbFetch<SimilarResponse>(
       `/movie/${movieId}/similar?language=en-US&page=1`,
     ),
     tmdbFetch<VideoResponse>(`/movie/${movieId}/videos?language=en-US`),
+    tmdbFetch<ReleaseDatesResponse>(`/movie/${movieId}/release_dates`),
   ]);
+
+  const usRelease = releaseDates.results.find((r) => r.iso_3166_1 === "US");
+  const certification = usRelease?.release_dates.find((d) => d.certification)?.certification;
 
   const trailer = videos.results.find(
     (v) => v.type === "Trailer" && v.site === "YouTube",
   );
+
   const director = credits.crew.find((c) => c.job === "Director");
   const writers = credits.crew
     .filter((c) => c.department === "Writing")
@@ -99,21 +110,20 @@ export default async function MovieDetailPage({
         title={movie.title}
         releaseDate={movie.release_date}
         runtime={movie.runtime}
+        voteAverage={movie.vote_average}
+        voteCount={movie.vote_count}
+        certification={certification}
       />
       <MovieHero
         posterPath={movie.poster_path}
         backdropPath={movie.backdrop_path}
         trailer={trailer}
-        voteAverage={movie.vote_average}
-        voteCount={movie.vote_count}
       />
       <MovieGenres genres={movie.genres} />
       <p className="text-gray-700 leading-relaxed max-w-3xl">
         {movie.overview}
       </p>
-      <hr className="border-gray-200" />
       <MovieCredits director={director} writers={writers} stars={stars} />
-      <Team movieId={id} />
       <SimilarMovies
         movies={similar.results}
         genreIds={movie.genres.map((g) => g.id)}

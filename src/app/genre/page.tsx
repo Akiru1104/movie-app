@@ -30,7 +30,7 @@ const getPaginationNumbers = (
   current: number,
   total: number,
 ): (number | "...")[] => {
-  const max = Math.min(total, 500);
+  const max = Math.min(total, 10);
   if (max <= 5) return Array.from({ length: max }, (_, i) => i + 1);
   if (current <= 3) return [1, 2, 3, "...", max];
   if (current >= max - 2) return [1, "...", max - 2, max - 1, max];
@@ -217,7 +217,7 @@ export default function GenreFilterPage() {
                 )}
 
                 {/* Next */}
-                {currentPage < totalPages ? (
+                {currentPage < Math.min(totalPages, 10) ? (
                   <button
                     onClick={() => goToPage(currentPage + 1)}
                     className="px-3 py-2 rounded text-sm hover:bg-gray-100"

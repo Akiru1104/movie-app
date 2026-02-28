@@ -1,5 +1,6 @@
 import MovieCard from "@/app/about/components/MovieCard";
 import { fetchMoviesFromTMDB } from "../about/components/Allmovie";
+import { Movie } from "../../..";
 
 export default async function MovieCategoryPage({
   params,

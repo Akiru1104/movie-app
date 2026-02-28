@@ -1,7 +1,5 @@
 import Link from "next/link";
 
-const IMG_BASE = "https://image.tmdb.org/t/p";
-
 type SimilarMovie = {
   id: number;
   title: string;
@@ -26,37 +24,35 @@ export default function SimilarMovies({ movies, genreIds = [] }: Props) {
         <h2 className="text-xl font-semibold">More like this</h2>
         <Link
           href={seeMoreHref}
-          className="text-sm text-gray-500 hover:text-gray-800 flex items-center gap-1"
+          className="text-sm text-black hover:text-gray-600 font-medium flex items-center gap-1"
         >
           See more →
         </Link>
       </div>
 
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
+      <div className="flex gap-4 overflow-x-auto pb-2">
         {movies.slice(0, 5).map((m) => (
-          <Link key={m.id} href={`/movieDetail/${m.id}`} className="group">
-            <div className="rounded-lg overflow-hidden bg-gray-100">
-              {m.poster_path ? (
-                <img
-                  src={`${IMG_BASE}/w300${m.poster_path}`}
-                  alt={m.title}
-                  className="w-full h-48 object-cover group-hover:opacity-80 transition"
-                />
-              ) : (
-                <div className="w-full h-48 bg-gray-200 flex items-center justify-center text-xs text-gray-400">
-                  No Image
-                </div>
-              )}
-            </div>
-            <div className="mt-1 px-1">
-              <div className="flex items-center gap-1 text-xs text-gray-500">
-                <span className="text-yellow-400">★</span>
-                <span>{m.vote_average.toFixed(1)}</span>
-                <span className="text-gray-300">/10</span>
+          <Link
+            key={m.id}
+            href={`/movieDetail/${m.id}`}
+            className="bg-gray-50 dark:bg-gray-800 overflow-hidden rounded-lg block hover:opacity-80 transition shrink-0"
+            style={{ width: 160 }}
+          >
+            {m.poster_path ? (
+              <img
+                className="w-full aspect-2/3 object-cover"
+                src={`https://image.tmdb.org/t/p/w500${m.poster_path}`}
+                alt={m.title}
+                width={200}
+              />
+            ) : (
+              <div className="w-full aspect-2/3 bg-gray-200 flex items-center justify-center text-xs text-gray-400">
+                No Image
               </div>
-              <p className="text-sm font-medium text-gray-800 truncate">
-                {m.title}
-              </p>
+            )}
+            <div className="p-3">
+              <div>{m.title}</div>
+              <div>⭐ {m.vote_average.toFixed(1)}</div>
             </div>
           </Link>
         ))}
