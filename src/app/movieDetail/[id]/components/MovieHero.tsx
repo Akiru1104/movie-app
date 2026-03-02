@@ -4,6 +4,11 @@ import { useState } from "react";
 
 const IMG_BASE = "https://image.tmdb.org/t/p";
 
+type Genre = {
+  id: number;
+  name: string;
+};
+
 type Trailer = {
   key: string;
   name: string;
@@ -13,40 +18,28 @@ type Props = {
   posterPath: string | null;
   backdropPath: string | null;
   trailer: Trailer | undefined;
+  genres: Genre[];
+  overview: string;
 };
 
-export default function MovieHero({ posterPath, backdropPath, trailer }: Props) {
-  const [playing, setPlaying] = useState(false);
+export default function MovieHero({ posterPath, backdropPath, trailer, genres, overview }: Props) {
+  const [playingMobile, setPlayingMobile] = useState(false);
+  const [playingDesktop, setPlayingDesktop] = useState(false);
 
   return (
-    <div className="flex flex-col md:flex-row gap-4 items-start">
-      {/* Poster */}
-      <div className="flex-shrink-0 w-full md:w-72.5 rounded-lg overflow-hidden">
-        {posterPath ? (
-          <img
-            src={`${IMG_BASE}/w500${posterPath}`}
-            alt="poster"
-            className="w-full h-72 md:h-107 object-cover"
-          />
-        ) : (
-          <div className="w-full h-72 md:h-107 bg-gray-200 flex items-center justify-center text-xs text-gray-400">
-            No Image
-          </div>
-        )}
-      </div>
-
-      {/* Trailer */}
-      <div className="relative w-full md:w-190 rounded-lg overflow-hidden bg-black">
-        {playing && trailer ? (
+    <div>
+      {/* Mobile-only: full-width trailer on top */}
+      <div className="md:hidden relative w-full rounded-xl overflow-hidden bg-black aspect-video">
+        {playingMobile && trailer ? (
           <>
             <iframe
               src={`https://www.youtube.com/embed/${trailer.key}?autoplay=1`}
-              className="w-full h-56 md:h-107"
+              className="w-full h-full"
               allow="autoplay; encrypted-media"
               allowFullScreen
             />
             <button
-              onClick={() => setPlaying(false)}
+              onClick={() => setPlayingMobile(false)}
               className="absolute top-2 right-2 bg-black/60 hover:bg-black/80 text-white rounded-full w-8 h-8 flex items-center justify-center text-sm"
             >
               ✕
@@ -54,18 +47,19 @@ export default function MovieHero({ posterPath, backdropPath, trailer }: Props) 
           </>
         ) : (
           <>
-            {backdropPath && (
+            {backdropPath ? (
               <img
                 src={`${IMG_BASE}/w1280${backdropPath}`}
                 alt="backdrop"
-                className="w-full h-56 md:h-107 object-cover opacity-80"
+                className="w-full h-full object-cover opacity-80"
               />
+            ) : (
+              <div className="w-full h-full flex items-center justify-center text-xs text-gray-400">
+                No Image
+              </div>
             )}
             {trailer && (
-              <button
-                onClick={() => setPlaying(true)}
-                className="absolute bottom-4 left-4"
-              >
+              <button onClick={() => setPlayingMobile(true)} className="absolute bottom-4 left-4">
                 <div className="flex items-center gap-2 bg-black/60 hover:bg-black/80 transition text-white px-5 py-3 rounded-full text-sm font-medium">
                   <span className="text-lg">▶</span>
                   Play trailer
@@ -74,6 +68,76 @@ export default function MovieHero({ posterPath, backdropPath, trailer }: Props) 
             )}
           </>
         )}
+      </div>
+
+      {/* Shared row: poster (single instance) + mobile genres/overview OR desktop trailer */}
+      <div className="flex gap-4 mt-4 md:mt-0 md:h-96">
+        {/* Poster — overlaps trailer on mobile (only when not playing), left-1/3 on desktop */}
+        <div className={`shrink-0 w-32 md:w-1/3 md:mt-0 rounded-xl overflow-hidden bg-gray-200 shadow-lg md:shadow-none self-start md:self-auto ${playingMobile ? "mt-0" : "-mt-14"}`}>
+          {posterPath ? (
+            <img
+              src={`${IMG_BASE}/w500${posterPath}`}
+              alt="poster"
+              className="w-full h-full object-cover"
+            />
+          ) : (
+            <div className="w-full aspect-2/3 flex items-center justify-center text-xs text-gray-400">
+              No Image
+            </div>
+          )}
+        </div>
+
+        {/* Mobile-only: genres + overview */}
+        <div className="md:hidden flex flex-col gap-3 pt-2 min-w-0 flex-1">
+          {genres.length > 0 && (
+            <div className="flex flex-wrap gap-2">
+              {genres.map((g) => (
+                <span key={g.id} className="rounded-full border border-gray-300 px-3 py-1 text-xs">
+                  {g.name}
+                </span>
+              ))}
+            </div>
+          )}
+          <p className="text-gray-700 dark:text-gray-300 leading-relaxed text-sm">{overview}</p>
+        </div>
+
+        {/* Desktop-only: trailer (right 2/3) */}
+        <div className="hidden md:block relative flex-1 rounded-xl overflow-hidden bg-black">
+          {playingDesktop && trailer ? (
+            <>
+              <iframe
+                src={`https://www.youtube.com/embed/${trailer.key}?autoplay=1`}
+                className="w-full h-full"
+                allow="autoplay; encrypted-media"
+                allowFullScreen
+              />
+              <button
+                onClick={() => setPlayingDesktop(false)}
+                className="absolute top-2 right-2 bg-black/60 hover:bg-black/80 text-white rounded-full w-8 h-8 flex items-center justify-center text-sm"
+              >
+                ✕
+              </button>
+            </>
+          ) : (
+            <>
+              {backdropPath && (
+                <img
+                  src={`${IMG_BASE}/w1280${backdropPath}`}
+                  alt="backdrop"
+                  className="w-full h-full object-cover opacity-80"
+                />
+              )}
+              {trailer && (
+                <button onClick={() => setPlayingDesktop(true)} className="absolute bottom-4 left-4">
+                  <div className="flex items-center gap-2 bg-black/60 hover:bg-black/80 transition text-white px-5 py-3 rounded-full text-sm font-medium">
+                    <span className="text-lg">▶</span>
+                    Play trailer
+                  </div>
+                </button>
+              )}
+            </>
+          )}
+        </div>
       </div>
     </div>
   );

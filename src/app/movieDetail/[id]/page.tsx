@@ -118,9 +118,13 @@ export default async function MovieDetailPage({
         posterPath={movie.poster_path}
         backdropPath={movie.backdrop_path}
         trailer={trailer}
+        genres={movie.genres}
+        overview={movie.overview}
       />
-      <MovieGenres genres={movie.genres} />
-      <p className="text-gray-700 leading-relaxed max-w-3xl">
+      <div className="hidden md:block">
+        <MovieGenres genres={movie.genres} />
+      </div>
+      <p className="hidden md:block text-gray-700 leading-relaxed max-w-3xl">
         {movie.overview}
       </p>
       <MovieCredits director={director} writers={writers} stars={stars} />
