@@ -25,8 +25,13 @@ export const Header = () => {
   const [results, setResults] = useState<Movie[]>([]);
   const [open, setOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const router = useRouter();
   const { theme, setTheme } = useTheme();
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const TOKEN = process.env.NEXT_PUBLIC_MOVIE_KEY;
 
@@ -112,18 +117,21 @@ export const Header = () => {
           onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
           className="h-9 w-9 border-2 flex items-center justify-center rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 transition shrink-0"
         >
-          {theme === "dark" ? (
+          {mounted && (theme === "dark" ? (
             <MdOutlineLightMode className="text-xl" />
           ) : (
             <MdOutlineDarkMode className="text-xl" />
-          )}
+          ))}
         </button>
       </div>
 
       {/* Mobile */}
       <div className="md:hidden">
         {searchOpen ? (
-          <div className="flex items-center gap-3 px-4 py-4 relative">
+          <div className="flex items-center gap-2 px-4 py-4 relative">
+            <Suspense>
+              <GenrePicker value={genres} onChange={setGenres} />
+            </Suspense>
             <div className="flex-1 relative">
               <SearchInput
                 value={search}
@@ -172,11 +180,11 @@ export const Header = () => {
                 onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
                 className="h-9 w-9 border-2 flex items-center justify-center rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 transition"
               >
-                {theme === "dark" ? (
+                {mounted && (theme === "dark" ? (
                   <MdOutlineLightMode className="text-xl" />
                 ) : (
                   <MdOutlineDarkMode className="text-xl" />
-                )}
+                ))}
               </button>
             </div>
           </div>

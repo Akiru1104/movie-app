@@ -44,7 +44,7 @@ export default function MovieHero({ posterPath, backdropPath, trailer, genres, o
         )}
         {trailer && (
           <button onClick={() => setModalOpen(true)} className="absolute bottom-4 left-4">
-            <div className="flex items-center gap-2 bg-black/60 hover:bg-black/80 transition text-white px-5 py-3 rounded-full text-sm font-medium">
+            <div className="flex items-center gap-2 bg-black/60 hover:bg-black/80 transition text-white border border-white px-5 py-3 rounded-full text-sm font-medium">
               <span className="text-lg">▶</span>
               Play trailer
             </div>
@@ -117,7 +117,7 @@ export default function MovieHero({ posterPath, backdropPath, trailer, genres, o
               )}
               {trailer && (
                 <button onClick={() => setPlayingDesktop(true)} className="absolute bottom-4 left-4">
-                  <div className="flex items-center gap-2 bg-black/60 hover:bg-black/80 transition text-white px-5 py-3 rounded-full text-sm font-medium">
+                  <div className="flex items-center gap-2 bg-black/60 hover:bg-black/80 transition text-white border border-white px-5 py-3 rounded-full text-sm font-medium">
                     <span className="text-lg">▶</span>
                     Play trailer
                   </div>

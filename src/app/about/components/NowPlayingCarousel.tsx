@@ -91,8 +91,11 @@ export default function NowPlayingCarousel({ movies }: { movies: Movie[] }) {
       </div>
 
       {/* Mobile only: Now Playing мэдээлэл */}
-      <div className="md:hidden bg-white text-black">
-        <div className="border-t border-black/20"></div>
+      <div
+        className="md:hidden"
+        style={{ backgroundColor: "var(--background)", color: "var(--foreground)" }}
+      >
+        <div className="border-t" style={{ borderColor: "var(--border)" }}></div>
 
         {current && (
           <div className="px-6 pt-4 pb-3 flex flex-col gap-2">

@@ -70,7 +70,7 @@ export default function GenrePicker({
       <PopoverTrigger asChild>
         <Button variant="outline" className="h-9 px-3 gap-1.5 relative">
           <IoIosArrowDown className="text-base" />
-          <span className="text-sm font-medium">Genre</span>
+          <span className="text-sm font-medium hidden md:inline">Genre</span>
           {selected.length > 0 && (
             <span className="absolute -top-1.5 -right-1.5 h-4 w-4 rounded-full bg-gray-900 text-white text-[10px] flex items-center justify-center">
               {selected.length}
