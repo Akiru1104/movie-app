@@ -62,8 +62,9 @@ export default function GenrePicker({
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
-        <Button variant="outline" className="h-9 w-9 p-0 relative">
+        <Button variant="outline" className="h-9 px-3 gap-1.5 relative">
           <IoIosArrowDown className="text-base" />
+          <span className="text-sm font-medium">Genre</span>
           {selected.length > 0 && (
             <span className="absolute -top-1.5 -right-1.5 h-4 w-4 rounded-full bg-gray-900 text-white text-[10px] flex items-center justify-center">
               {selected.length}
@@ -73,7 +74,6 @@ export default function GenrePicker({
       </PopoverTrigger>
 
       <PopoverContent className="w-90 p-4" align="start">
-        <div className="mb-1 text-sm font-semibold">Genre</div>
         <div className="mb-3 text-sm text-muted-foreground">
           See lists of movies by genre
         </div>

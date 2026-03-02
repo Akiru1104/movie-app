@@ -73,7 +73,7 @@ export default function SearchResultList({
       <div
         onClick={() => {
           router.push(`/search?query=${encodeURIComponent(word)}`);
-          onNavigate ? onNavigate() : onClose(); // ← өөрчил
+          onNavigate ? onNavigate() : onClose();
         }}
         className="cursor-pointer border-t px-3 py-2 text-sm text-gray-600 hover:bg-gray-50"
       >

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import MovieCard from "@/app/about/components/MovieCard";
 import { Movie } from "../../../index";
@@ -37,7 +37,7 @@ const getPaginationNumbers = (
   return [1, "...", current - 1, current, current + 1, "...", max];
 };
 
-export default function GenreFilterPage() {
+function GenreFilterContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
 
@@ -125,9 +125,9 @@ export default function GenreFilterPage() {
     <div className="px-6 md:px-16 py-8">
       <h1 className="text-2xl font-bold mb-6">Search filter</h1>
 
-      <div className="flex gap-10">
+      <div className="flex flex-col md:flex-row gap-10">
         {/* LEFT: Genre filter */}
-        <div className="w-64 flex-shrink-0">
+        <div className="w-full md:w-64 md:shrink-0">
           <h2 className="text-lg font-semibold mb-1">Genres</h2>
           <p className="text-sm text-gray-500 mb-4">
             See lists of movies by genre
@@ -161,9 +161,9 @@ export default function GenreFilterPage() {
         {/* RIGHT: Results */}
         <div className="flex-1">
           {selectedGenres.length === 0 ? (
-            <p className="text-gray-400 mt-4">Genre сонгоно уу...</p>
+            <p className="text-gray-400 mt-4">Select a genre...</p>
           ) : loading ? (
-            <p className="text-gray-400 mt-4">Уншиж байна...</p>
+            <p className="text-gray-400 mt-4">Loading...</p>
           ) : (
             <>
               <p className="text-sm text-gray-500 mb-4">
@@ -235,5 +235,13 @@ export default function GenreFilterPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function GenreFilterPage() {
+  return (
+    <Suspense>
+      <GenreFilterContent />
+    </Suspense>
   );
 }

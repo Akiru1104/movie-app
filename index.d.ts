@@ -1,15 +1,15 @@
 export type Movie = {
   id: number;
-  runtime: number;
-  vote_count: number;
-  backdrop_path: string;
   title: string;
-  poster_path: string;
-  overview: string;
-  release_date: string;
+  poster_path: string | null;
   vote_average: number;
-  orignal_title: string;
-  genres: { id: number; name: string }[];
+  release_date?: string;
+  runtime?: number;
+  vote_count?: number;
+  backdrop_path?: string | null;
+  overview?: string;
+  orignal_title?: string;
+  genres?: { id: number; name: string }[];
 };
 export type CastMember = {
   id: number;

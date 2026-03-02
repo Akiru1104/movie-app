@@ -74,24 +74,24 @@ export const Header = () => {
 
   return (
     <header className="border-b">
-      {searchOpen ? (
-        /* Search нээлттэй үед */
-        <div className="flex items-center gap-3 px-4 md:px-20 py-4 relative">
-          <GenrePicker value={genres} onChange={setGenres} />
+      {/* Desktop: always visible search + genre */}
+      <div className="hidden md:flex items-center justify-between px-20 py-4 gap-4">
+        <Link
+          href="/"
+          className="flex items-center gap-2 italic text-indigo-700 font-bold shrink-0"
+        >
+          <TbMovie />
+          <p>Movie Z</p>
+        </Link>
 
-          {/* ✕ input дотор баруун талд */}
+        <div className="flex items-center gap-2 w-72">
+          <GenrePicker value={genres} onChange={setGenres} />
           <div className="flex-1 relative">
             <SearchInput
               value={search}
               onChange={(v) => setSearch(v)}
               onEnter={handleEnter}
             />
-            <button
-              onClick={closeSearch}
-              className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition text-base"
-            >
-              ✕
-            </button>
             {open && (
               <SearchResultList
                 word={search}
@@ -100,49 +100,86 @@ export const Header = () => {
                 onNavigate={() => {
                   setOpen(false);
                   setSearch("");
-                  setSearchOpen(false);
                 }}
               />
             )}
           </div>
         </div>
-      ) : (
-        /* Энгийн header */
-        <div className="flex items-center justify-between px-4 md:px-20 py-4 gap-2">
-          <Link
-            href={`/`}
-            className="flex items-center gap-2 italic text-indigo-700 font-bold"
-          >
-            <TbMovie />
-            <p>Movie Z</p>
-          </Link>
 
-          <div className="flex items-center gap-2">
-            {/* Genre — зөвхөн desktop дээр */}
-            <div className="hidden md:block">
-              <GenrePicker value={genres} onChange={setGenres} />
-            </div>
+        <button
+          onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+          className="h-9 w-9 border-2 flex items-center justify-center rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 transition shrink-0"
+        >
+          {theme === "dark" ? (
+            <MdOutlineLightMode className="text-xl" />
+          ) : (
+            <MdOutlineDarkMode className="text-xl" />
+          )}
+        </button>
+      </div>
 
-            <button
-              onClick={() => setSearchOpen(true)}
-              className="h-9 w-9 border-2 flex items-center justify-center rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 transition"
-            >
-              <CiSearch className="text-xl" />
-            </button>
-
-            <button
-              onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-              className="h-9 w-9 border-2 flex items-center justify-center rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 transition"
-            >
-              {theme === "dark" ? (
-                <MdOutlineLightMode className="text-xl" />
-              ) : (
-                <MdOutlineDarkMode className="text-xl" />
+      {/* Mobile */}
+      <div className="md:hidden">
+        {searchOpen ? (
+          <div className="flex items-center gap-3 px-4 py-4 relative">
+            <div className="flex-1 relative">
+              <SearchInput
+                value={search}
+                onChange={(v) => setSearch(v)}
+                onEnter={handleEnter}
+              />
+              <button
+                onClick={closeSearch}
+                className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-700 transition text-base"
+              >
+                ✕
+              </button>
+              {open && (
+                <SearchResultList
+                  word={search}
+                  results={results}
+                  onClose={() => setOpen(false)}
+                  onNavigate={() => {
+                    setOpen(false);
+                    setSearch("");
+                    setSearchOpen(false);
+                  }}
+                />
               )}
-            </button>
+            </div>
           </div>
-        </div>
-      )}
+        ) : (
+          <div className="flex items-center justify-between px-4 py-4 gap-2">
+            <Link
+              href="/"
+              className="flex items-center gap-2 italic text-indigo-700 font-bold"
+            >
+              <TbMovie />
+              <p>Movie Z</p>
+            </Link>
+
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => setSearchOpen(true)}
+                className="h-9 w-9 border-2 flex items-center justify-center rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 transition"
+              >
+                <CiSearch className="text-xl" />
+              </button>
+
+              <button
+                onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+                className="h-9 w-9 border-2 flex items-center justify-center rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 transition"
+              >
+                {theme === "dark" ? (
+                  <MdOutlineLightMode className="text-xl" />
+                ) : (
+                  <MdOutlineDarkMode className="text-xl" />
+                )}
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
     </header>
   );
 };

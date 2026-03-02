@@ -1,6 +1,6 @@
 import MovieCard from "@/app/about/components/MovieCard";
 import { fetchMoviesFromTMDB } from "../about/components/Allmovie";
-import { Movie } from "../../..";
+import type { Movie } from "../../..";
 
 export default async function MovieCategoryPage({
   params,
@@ -8,7 +8,7 @@ export default async function MovieCategoryPage({
   params: { category: string };
 }) {
   const { category } = params;
-  const movies: Movie[] = await fetchMoviesFromTMDB(category);
+  const { results: movies }: { results: Movie[]; totalPages: number } = await fetchMoviesFromTMDB(category);
 
   return (
     <div className="grid grid-cols-5 gap-4 px-4">

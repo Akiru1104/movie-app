@@ -7,7 +7,7 @@ import { FaXTwitter } from "react-icons/fa6";
 
 export const Footer = () => {
   return (
-    <div className="bg-[#4338CA] dark:bg-gray-900 flex flex-col md:flex-row text-white py-10 gap-8 md:gap-24 px-6 md:px-10">
+    <div className="bg-[#4338CA] dark:bg-gray-900 flex flex-col md:flex-row md:justify-between text-white py-10 gap-8 px-6 md:px-20">
       <div className="flex flex-col gap-3">
         <div className="flex align-center gap-2 italic font-bold items-center">
           <TbMovie className="h-5 w-5" />
@@ -16,7 +16,7 @@ export const Footer = () => {
         <div>© 2026 Movie Z. All Rights Reserved.</div>
       </div>
 
-      <div className="flex flex-row gap-12 md:gap-24 items-start">
+      <div className="flex flex-row gap-12 md:gap-24 items-start md:justify-end">
         {/* Contact Information */}
         <div className="flex flex-col gap-4">
           <div className="pb-0.5 font-semibold">Contact Information</div>
@@ -36,10 +36,11 @@ export const Footer = () => {
           </div>
         </div>
 
-        {/* Follow Us — дээрээс доош цуваасан */}
+        {/* Follow Us */}
         <div className="flex flex-col gap-3">
           <div className="font-semibold">Follow us</div>
-          <div className="flex flex-col gap-3">
+          {/* Mobile: vertical */}
+          <div className="flex flex-col gap-3 md:hidden">
             <a href="#" className="flex items-center gap-3 hover:opacity-75 transition">
               <FaFacebook className="h-5 w-5" />
               <span>Facebook</span>
@@ -56,6 +57,13 @@ export const Footer = () => {
               <FaYoutube className="h-5 w-5" />
               <span>Youtube</span>
             </a>
+          </div>
+          {/* Desktop: horizontal with text */}
+          <div className="hidden md:flex flex-row gap-4">
+            <a href="#" className="flex items-center gap-2 hover:opacity-75 transition"><FaFacebook className="h-5 w-5" /><span>Facebook</span></a>
+            <a href="#" className="flex items-center gap-2 hover:opacity-75 transition"><FaInstagram className="h-5 w-5" /><span>Instagram</span></a>
+            <a href="#" className="flex items-center gap-2 hover:opacity-75 transition"><FaXTwitter className="h-5 w-5" /><span>Twitter</span></a>
+            <a href="#" className="flex items-center gap-2 hover:opacity-75 transition"><FaYoutube className="h-5 w-5" /><span>Youtube</span></a>
           </div>
         </div>
       </div>

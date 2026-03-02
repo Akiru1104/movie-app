@@ -95,16 +95,16 @@ export default function NowPlayingCarousel({ movies }: { movies: Movie[] }) {
         <div className="border-t border-black/20"></div>
 
         {current && (
-          <div className="px-6 pt-4 pb-8 flex flex-col gap-2">
+          <div className="px-6 pt-4 pb-3 flex flex-col gap-2">
             <p className="text-xs uppercase tracking-widest opacity-50">Now Playing</p>
             <div className="flex items-center justify-between gap-2">
               <h1 className="text-2xl font-bold truncate">{current.title}</h1>
-              <span className="text-xl font-semibold shrink-0">⭐ {current.vote_average.toFixed(1)}</span>
+              <span className="text-xl font-semibold shrink-0">⭐ {current.vote_average.toFixed(1)}<span className="text-sm font-normal opacity-50">/10</span></span>
             </div>
-            <p className="text-sm line-clamp-3 opacity-70">{current.overview}</p>
+            <p className="text-sm opacity-70">{current.overview}</p>
             <button
               onClick={() => handleWatchTrailer(current.id)}
-              className="w-fit mt-2 px-5 py-2 bg-black text-white rounded hover:bg-gray-800 transition"
+              className="w-fit mt-1 px-5 py-2 bg-black text-white rounded hover:bg-gray-800 transition"
             >
               ▶ Watch Trailer
             </button>

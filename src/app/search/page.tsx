@@ -78,7 +78,7 @@ export default async function SearchPage({
     <div className="px-6 md:px-16 py-8">
       <h1 className="text-2xl font-bold mb-2">Search results</h1>
 
-      <div className="flex flex-col-reverse md:flex-row gap-6 md:gap-10">
+      <div className="flex flex-col md:flex-row gap-6 md:gap-10">
         {/* LEFT: Results */}
         <div className="flex-1">
           {query && (
@@ -148,9 +148,15 @@ export default async function SearchPage({
               </div>
             </>
           ) : query ? (
-            <p className="text-gray-500">
-              No results found for &quot;{query}&quot;
-            </p>
+            <div className="flex flex-col items-center justify-center py-20 text-center">
+              <span className="text-5xl mb-4">🔍</span>
+              <p className="text-lg font-semibold text-gray-800 dark:text-gray-100">
+                No results found
+              </p>
+              <p className="text-sm text-gray-500 mt-1">
+                No movies found matching &quot;{query}&quot;
+              </p>
+            </div>
           ) : (
             <p className="text-gray-400">Search for a movie above.</p>
           )}
