@@ -15,7 +15,7 @@ export default function MovieGenres({ genres }: Props) {
       {genres.map((g) => (
         <span
           key={g.id}
-          className="rounded-full border border-gray-300 px-3 py-1 text-xs "
+          className="rounded-full border border-gray-300 dark:border-gray-600 px-3 py-1 text-xs"
         >
           {g.name}
         </span>

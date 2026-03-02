@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import GenrePicker from "@/app/components/GenrePicker";
 import SearchInput from "@/app/components/SearchInput";
 import SearchResultList from "@/app/about/components/SearchResultList";
@@ -85,7 +85,9 @@ export const Header = () => {
         </Link>
 
         <div className="flex items-center gap-2 w-72">
-          <GenrePicker value={genres} onChange={setGenres} />
+          <Suspense>
+            <GenrePicker value={genres} onChange={setGenres} />
+          </Suspense>
           <div className="flex-1 relative">
             <SearchInput
               value={search}

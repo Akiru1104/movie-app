@@ -61,7 +61,7 @@ export default function MovieHero({ posterPath, backdropPath, trailer, genres, o
       {/* Shared row: poster + mobile genres/overview OR desktop trailer */}
       <div className="flex gap-4 mt-4 md:mt-0 md:h-96">
         {/* Poster */}
-        <div className="shrink-0 w-32 md:w-1/3 rounded-xl overflow-hidden bg-gray-200 shadow-lg md:shadow-none self-start md:self-auto">
+        <div className="shrink-0 w-32 md:w-1/3 rounded-xl overflow-hidden bg-gray-200 dark:bg-gray-700 shadow-lg md:shadow-none self-start md:self-auto">
           {posterPath ? (
             <img
               src={`${IMG_BASE}/w500${posterPath}`}
@@ -80,7 +80,7 @@ export default function MovieHero({ posterPath, backdropPath, trailer, genres, o
           {genres.length > 0 && (
             <div className="flex flex-wrap gap-2">
               {genres.map((g) => (
-                <span key={g.id} className="rounded-full border border-gray-300 px-3 py-1 text-xs">
+                <span key={g.id} className="rounded-full border border-gray-300 dark:border-gray-600 px-3 py-1 text-xs">
                   {g.name}
                 </span>
               ))}

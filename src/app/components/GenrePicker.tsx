@@ -9,7 +9,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { IoIosArrowDown } from "react-icons/io";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 const GENRES = [
   { id: 28, name: "Action" },
@@ -40,8 +40,14 @@ export default function GenrePicker({
   onChange: (next: string[]) => void;
 }) {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [open, setOpen] = React.useState(false);
   const [selected, setSelected] = React.useState<number[]>([]);
+
+  React.useEffect(() => {
+    const ids = searchParams.get("ids");
+    setSelected(ids ? ids.split(",").map(Number).filter(Boolean) : []);
+  }, [searchParams]);
 
   const toggleGenre = (id: number) => {
     setSelected((prev) =>

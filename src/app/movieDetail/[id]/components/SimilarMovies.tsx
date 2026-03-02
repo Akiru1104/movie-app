@@ -24,7 +24,7 @@ export default function SimilarMovies({ movies, genreIds = [] }: Props) {
         <h2 className="text-xl font-semibold">More like this</h2>
         <Link
           href={seeMoreHref}
-          className="text-sm text-black hover:text-gray-600 font-medium flex items-center gap-1"
+          className="text-sm text-black dark:text-white hover:text-gray-600 dark:hover:text-gray-300 font-medium flex items-center gap-1"
         >
           See more →
         </Link>
